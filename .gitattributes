@@ -1,12 +1,12 @@
 * text=auto
-*.css linguist-vendored
-*.scss linguist-vendored
-*.js linguist-vendored
+# *.css linguist-vendored
+# *.scss linguist-vendored
+# *.js linguist-vendored
 *.php linguist-vendored
 
 # Example of a `.gitattributes` file which reclassifies `.rb` files as Java:
-*.php linguist-language=PHP
+# *.php linguist-language=PHP
 
 # Replace any whitespace in the language name with hyphens:
-*.glyphs linguist-language=OpenStep-Property-List
+# *.glyphs linguist-language=OpenStep-Property-List
 CHANGELOG.md export-ignore
