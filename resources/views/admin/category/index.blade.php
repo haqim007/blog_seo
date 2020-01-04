@@ -1,7 +1,9 @@
 @extends('template_admin.home')
+@section('subtitle','Kategori')
 @section('content')
-<h1>Ini adalah laman category</h1>
 
+<a href="{{route('category.create')}}" class="btn btn-info btn-sm">Tambah Kategori</a>
+<br><br>
 <table class="table table-hover table-sm table-bordered table-striped">
 	<thead>
 		<tr>
