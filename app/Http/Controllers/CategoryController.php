@@ -37,13 +37,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            "name" => "required|min:3",
+        ]);
         // dd($request->all());
         $category = Category::create([
             'name'=> $request->name,
             'slug'=> Str::slug($request->name)
         ]);
 
-        return redirect()->back();
+        return redirect(route("category.index"))->with("message", "Kategori berhasil ditambahkan!");
     }
 
     /**
@@ -65,7 +68,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Category::findorfail($id);
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -77,7 +81,18 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "name" => "required|min:3"
+        ]);
+
+        $category_data = [
+            "name"=>$request->name,
+            "slug"=>Str::slug($request->name)
+        ];
+
+        Category::whereId($id)->update($category_data);
+
+        return redirect()->route('category.index')->with("message", "Data berhasil diubah!");
     }
 
     /**
@@ -88,6 +103,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::findorfail($id)->delete();
+
+        return redirect()->back()->with("message", "Data berhasil dihapus!");
+
     }
 }
