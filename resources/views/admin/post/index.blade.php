@@ -1,7 +1,11 @@
 @extends('template_admin.home')
 @section('subtitle','Posting')
 @section('content')
-
+<style type="text/css">
+	td {
+		 vertical-align: middle!important;
+	}
+</style>
 
 @if(Session::has('message'))
 	<div class="alert alert-info alert-dismissible fade show" role="alert">
@@ -19,6 +23,8 @@
 			<th>No</th>
 			<th>Judul Posting</th>
 			<th>Kategory</th>
+			<th>Tags</th>
+			<th>Gambar</th>
 			<th>Action</th>
 		</tr>
 	</thead>
@@ -28,6 +34,15 @@
 			<td>{{$key + $posts->firstitem()}}</td>
 			<td> {{$result->title}} </td>
 			<td> {{ $result->category->name }} </td>
+			<td>
+				<ul>
+				@foreach($result->tags as $tag)
+						<li>{{$tag->name}}</li>
+				@endforeach
+				</ul>
+
+			</td>
+			<td><img src="{{ asset($file_loc.$result->image) }}" class="mx-auto d-block" style="width: 25%" /></td>
 			<td> 
 				<form method="POST" action="{{route('post.destroy', $result->id)}}">
 					@csrf

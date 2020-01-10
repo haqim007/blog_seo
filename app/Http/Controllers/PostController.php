@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Posts;
 use App\Category;
+use App\Tags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -17,7 +18,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = Posts::paginate(10);
-        return view("admin.post.index", compact("posts"));
+        $file_loc = "public/uploads/posts/";
+        return view("admin.post.index", compact("posts", "file_loc"));
     }
 
     /**
@@ -27,8 +29,9 @@ class PostController extends Controller
      */
     public function create()
     {
+        $tags = Tags::all();
         $category = Category::all();
-        return view("admin.post.create", compact('category'));
+        return view("admin.post.create", compact('category', 'tags'));
     }
 
     /**
@@ -43,18 +46,21 @@ class PostController extends Controller
             "title"=>"required",
             "category_id"=>"required",
             "content"=>"required",
-            "image"=>"required"
+            "image"=>"required",
         ]);
 
         $image = $request->image;
         $newImage = Time().$image->getClientOriginalName();
 
-        Posts::create([
+        $post = Posts::create([
             "title"=>$request->title,
             "category_id"=>$request->category_id,
             "content"=>$request->content,
-            "image" => $newImage
+            "image" => $newImage,
+            "slug"=> Str::slug($request->title)
         ]);
+
+        $post->tags()->attach($request->tags);
 
         $image->move('public/uploads/posts', $newImage);
 
@@ -103,6 +109,9 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Posts::findorfail($id)->delete();
+
+        return redirect(route('post.index'))->with("message", "Post berhasil dihapus!");
+
     }
 }
