@@ -86,7 +86,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $posts = Posts::findorfail($id);
+        $tags = Tags::all();
+        $category = Category::all();
+        return view('admin.post.edit', compact("posts", "tags", "category"));
     }
 
     /**
@@ -98,7 +101,33 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "title"=>"required",
+            "category_id"=>"required",
+            "content"=>"required",
+        ]);
+
+
+        $post = Posts::findorfail($id);
+
+
+        $post_data = [
+            "title"=>$request->title,
+            "category_id"=>$request->category_id,
+            "content"=>$request->content,
+            "slug"=> Str::slug($request->title)
+        ];
+
+        if ($request->has('image')) {
+            $image = $request->image;
+            $newImage = Time().$image->getClientOriginalName();
+            $image->move('public/uploads/posts', $newImage);
+            $post_data['image'] = $newImage;
+        }
+        $post->tags()->sync($request->tags);
+        $post->update($post_data);
+
+        return redirect(route("post.index"))->with("message", "Posting berhasil diperbarui!");
     }
 
     /**
@@ -111,7 +140,27 @@ class PostController extends Controller
     {
         $post = Posts::findorfail($id)->delete();
 
-        return redirect(route('post.index'))->with("message", "Post berhasil dihapus!");
+        return redirect(route('post.index'))->with("message", "Post berhasil dihapus! (Silahkan periksa Trashed Post)");
 
+    }
+
+    public function trashed_post(){
+        $posts = Posts::onlyTrashed()->paginate(10);
+        $file_loc = "public/uploads/posts/";
+        return view('admin.post.trashed_post', compact('posts','file_loc'));
+    }
+
+    public function restore($id){
+        $post = Posts::withTrashed()->where('id', $id)->first();
+        $post->restore();
+
+        return redirect(route('post.trashed_post'))->with("message", "Post berhasil direstore! (Silahkan periksa Daftar Post)");
+    }
+
+    public function destroy_permanent($id){
+        $post = Posts::withTrashed()->where('id', $id)->first();
+        $post->forceDelete();
+
+        return redirect(route('post.trashed_post'))->with("message", "Post berhasil terhapus secara permanent!");
     }
 }

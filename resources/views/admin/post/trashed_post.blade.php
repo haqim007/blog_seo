@@ -1,5 +1,5 @@
 @extends('template_admin.home')
-@section('subtitle','Posting')
+@section('subtitle','Trashed Posting')
 @section('content')
 <style type="text/css">
 	td {
@@ -15,8 +15,7 @@
 		</button>
 	</div>
 @endif
-<a href="{{route('post.create')}}" class="btn btn-info btn-sm">Tambah Posting</a>
-<br><br>
+
 <table class="table table-hover table-sm table-bordered table-striped">
 	<thead>
 		<tr>
@@ -43,10 +42,10 @@
 			</td>
 			<td><img src="{{ asset($file_loc.$result->image) }}" class="mx-auto d-block" style="width: 25%" /></td>
 			<td> 
-				<form method="POST" action="{{route('post.destroy', $result->id)}}">
+				<form method="POST" action="{{route('post.destroy_permanent', $result->id)}}">
 					@csrf
 					@method('delete')
-					<a href="{{route('post.edit', $result->id)}}" class="btn btn-primary btn-sm">Edit</a>
+					<a href="{{route('post.restore', $result->id)}}" class="btn btn-primary btn-sm">Restore</a>
 					<button type="submit" class="btn btn-danger btn-sm">Hapus</button>
 				</form>
 		</tr>
