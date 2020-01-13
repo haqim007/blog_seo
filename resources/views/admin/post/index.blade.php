@@ -24,6 +24,7 @@
 			<th>Judul Posting</th>
 			<th>Kategory</th>
 			<th>Tags</th>
+			<th>Creator</th>
 			<th>Gambar</th>
 			<th>Action</th>
 		</tr>
@@ -35,12 +36,11 @@
 			<td> {{$result->title}} </td>
 			<td> {{ $result->category->name }} </td>
 			<td>
-				<ul>
 				@foreach($result->tags as $tag)
-						<li>{{$tag->name}}</li>
+						<span class="badge badge-info">{{$tag->name}}</span> 
 				@endforeach
-				</ul>
 			</td>
+			<td>{{$result->users->name}}</td>
 			<td><img src="{{ asset($file_loc.$result->image) }}" class="mx-auto d-block" style="width: 25%" /></td>
 			<td> 
 				<form method="POST" action="{{route('post.destroy', $result->id)}}">

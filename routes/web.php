@@ -11,21 +11,29 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
+Auth::routes();
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 });
 
-Route::resource('/category','CategoryController');
+Route::group(['middleware'=>'auth'], function(){
 
-Route::resource('/tag','TagsController');
+	Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/post/trashed_post', 'PostController@trashed_post')->name('post.trashed_post');
+	Route::resource('/category','CategoryController');
 
-Route::get('/post/restore/{id}', 'PostController@restore')->name('post.restore');
-Route::delete('/post/destroy_permanent/{id}', 'PostController@destroy_permanent')->name('post.destroy_permanent');
+	Route::resource('/tag','TagsController');
 
-Route::resource('/post','PostController');
+	Route::get('/post/trashed_post', 'PostController@trashed_post')->name('post.trashed_post');
+
+	Route::get('/post/restore/{id}', 'PostController@restore')->name('post.restore');
+	Route::delete('/post/destroy_permanent/{id}', 'PostController@destroy_permanent')->name('post.destroy_permanent');
+
+	Route::resource('/post','PostController');
+	Route::resource('/user', 'UserController');
+
+});
+
+
+
+
