@@ -25,7 +25,7 @@ class userController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.user.create");
     }
 
     /**
@@ -36,7 +36,21 @@ class userController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            "name"=>"required:min:3|max:100",
+            "email"=>"required|email",
+            "type"=>"required",
+            "password"=>"required",
+        ]);
+
+        $user = User::create([
+            "name"=>$request->name,
+            "email"=>$request->email,
+            "type"=>$request->type,
+            "password" => bcrypt($request->password)
+        ]);
+
+        return redirect(route("user.index"))->with("message", "User berhasil ditambahkan!");
     }
 
     /**
@@ -58,7 +72,9 @@ class userController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findorfail($id);
+
+        return view('admin.user.edit', compact('user'));
     }
 
     /**
@@ -70,7 +86,22 @@ class userController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            "name"=>"required:min:3|max:100",
+            "type"=>"required",
+        ]);
+
+
+        $user_data = [
+            "name"=>$request->name,
+            "type"=>$request->type,
+        ];
+
+        if ($request->input('password')) {
+            $user_data['password'] = bcrypt($request->password);
+        }
+        $user = User::findorfail($id)->update($user_data);
+        return redirect(route("user.index"))->with("message", "User berhasil diperbarui!");
     }
 
     /**
@@ -81,6 +112,8 @@ class userController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findorfail($id)->delete();
+
+        return redirect(route('user.index'))->with("message", "User berhasil dihapus!");
     }
 }

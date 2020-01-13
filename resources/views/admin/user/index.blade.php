@@ -11,7 +11,7 @@
 		</button>
 	</div>
 @endif
-<a href="{{route('tag.create')}}" class="btn btn-info btn-sm">Tambah User</a>
+<a href="{{route('user.create')}}" class="btn btn-info btn-sm">Tambah User</a>
 <br><br>
 <table class="table table-hover table-sm table-bordered table-striped">
 	<thead>

@@ -25,7 +25,7 @@
 			<th>Kategory</th>
 			<th>Tags</th>
 			<th>Creator</th>
-			<th>Gambar</th>
+			<th style="width: 20%">Gambar</th>
 			<th>Action</th>
 		</tr>
 	</thead>
@@ -41,7 +41,7 @@
 				@endforeach
 			</td>
 			<td>{{$result->users->name}}</td>
-			<td><img src="{{ asset($file_loc.$result->image) }}" class="mx-auto d-block" style="width: 25%" /></td>
+			<td><img src="{{ asset($file_loc.$result->image) }}" class="img-thumbnail img-responsive" /></td>
 			<td> 
 				<form method="POST" action="{{route('post.destroy', $result->id)}}">
 					@csrf

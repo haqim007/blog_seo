@@ -12,9 +12,12 @@
 */
 
 Auth::routes();
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'BlogController@index');
+// Route::get('/isi_post', function(){
+// 	return view('blog.post');
+// });
+
+Route::get('/read-post/{slug}', 'BlogController@read_post')->name('blog.read_post');
 
 Route::group(['middleware'=>'auth'], function(){
 
