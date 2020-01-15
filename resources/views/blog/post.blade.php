@@ -9,14 +9,12 @@
 				<div class="row">
 					<div class="col-md-10">
 						<div class="post-category">
-							<a href="category.html">{{$post->category->name}}</a>
+							<a href="{{route('blog.category', $post->category->slug)}}">{{$post->category->name}}</a>
 						</div>
 						<h1>{{$post->title}}.</h1>
 						<ul class="post-meta">
-							<li><a href="author.html">{{$post->users->name}}</a></li>
+							<li><a href="#">{{$post->users->name}}</a></li>
 							<li>{{$post->created_at->diffForHumans()}}</li>
-							<li><i class="fa fa-comments"></i> 3</li>
-							<li><i class="fa fa-eye"></i> 807</li>
 						</ul>
 					</div>
 				</div>
@@ -31,7 +29,7 @@
 			<div class="row">
 				<div class="col-md-8">
 		<div class="section-row">
-			{{$post->content}}
+			{!!$post->content!!}
 		</div>
 
 		<!-- post tags -->
@@ -39,10 +37,9 @@
 			<div class="post-tags">
 				<ul>
 					<li>TAGS:</li>
-					<li><a href="#">Social</a></li>
-					<li><a href="#">Lifestyle</a></li>
-					<li><a href="#">Fashion</a></li>
-					<li><a href="#">Health</a></li>
+					@foreach($post->tags as $tag)
+						<li>{{$tag->name}}</li>
+					@endforeach
 				</ul>
 			</div>
 		</div>

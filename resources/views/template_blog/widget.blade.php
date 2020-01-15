@@ -38,11 +38,9 @@
 		</div>
 		<div class="category-widget">
 			<ul>
-				<li><a href="#">Lifestyle <span>451</span></a></li>
-				<li><a href="#">Fashion <span>230</span></a></li>
-				<li><a href="#">Technology <span>40</span></a></li>
-				<li><a href="#">Travel <span>38</span></a></li>
-				<li><a href="#">Health <span>24</span></a></li>
+				@foreach($categories as $category)
+					<li><a href="{{route('blog.category', $category->slug)}}">{{$category->name}} <span>{{$category->posts->count()}}</span></a></li>
+				@endforeach
 			</ul>
 		</div>
 	</div>
@@ -55,7 +53,6 @@
 		</div>
 		<div class="newsletter-widget">
 			<form>
-				<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium.</p>
 				<input class="input" name="newsletter" placeholder="Enter Your Email">
 				<button class="primary-button">Subscribe</button>
 			</form>
@@ -68,55 +65,20 @@
 		<div class="section-title">
 			<h2 class="title">Popular Posts</h2>
 		</div>
+		@foreach($popular_post as $post)
 		<!-- post -->
 		<div class="post post-widget">
-			<a class="post-img" href="blog-post.html"><img src="{{asset('frontend/./img/widget-3.jpg')}}" alt=""></a>
+			<a class="post-img" href="blog-post.html"><img src="{{asset($file_loc.$post->image)}}" alt=""></a>
 			<div class="post-body">
 				<div class="post-category">
-					<a href="category.html">Lifestyle</a>
+					<a href="{{route('blog.read_post', $post->category->slug)}}">{{$post->category->name}}</a>
 				</div>
-				<h3 class="post-title"><a href="blog-post.html">Ne bonorum praesent cum, labitur persequeris definitionem quo cu?</a></h3>
+				<h3 class="post-title"><a href="{{route('blog.read_post', $post->slug)}}">{{$post->title}}</a></h3>
 			</div>
 		</div>
 		<!-- /post -->
+		@endforeach
 
-		<!-- post -->
-		<div class="post post-widget">
-			<a class="post-img" href="blog-post.html"><img src="{{asset('frontend/./img/widget-2.jpg')}}" alt=""></a>
-			<div class="post-body">
-				<div class="post-category">
-					<a href="category.html">Technology</a>
-					<a href="category.html">Lifestyle</a>
-				</div>
-				<h3 class="post-title"><a href="blog-post.html">Mel ut impetus suscipit tincidunt. Cum id ullum laboramus persequeris.</a></h3>
-			</div>
-		</div>
-		<!-- /post -->
-
-		<!-- post -->
-		<div class="post post-widget">
-			<a class="post-img" href="blog-post.html"><img src="{{asset('frontend/./img/widget-4.jpg')}}" alt=""></a>
-			<div class="post-body">
-				<div class="post-category">
-					<a href="category.html">Health</a>
-				</div>
-				<h3 class="post-title"><a href="blog-post.html">Postea senserit id eos, vivendo periculis ei qui</a></h3>
-			</div>
-		</div>
-		<!-- /post -->
-
-		<!-- post -->
-		<div class="post post-widget">
-			<a class="post-img" href="blog-post.html"><img src="{{asset('frontend/./img/widget-5.jpg')}}" alt=""></a>
-			<div class="post-body">
-				<div class="post-category">
-					<a href="category.html">Health</a>
-					<a href="category.html">Lifestyle</a>
-				</div>
-				<h3 class="post-title"><a href="blog-post.html">Sed ut perspiciatis, unde omnis iste natus error sit</a></h3>
-			</div>
-		</div>
-		<!-- /post -->
 	</div>
 	<!-- /post widget -->
 </div>

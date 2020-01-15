@@ -21,7 +21,7 @@
 	<thead>
 		<tr>
 			<th>No</th>
-			<th>Judul Posting</th>
+			<th style="width: 20%">Judul Posting</th>
 			<th>Kategory</th>
 			<th>Tags</th>
 			<th>Creator</th>

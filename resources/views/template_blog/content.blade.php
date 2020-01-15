@@ -14,7 +14,7 @@
 			<a class="post-img" href="{{route('blog.read_post', $post->slug)}}"><img src="{{asset($file_loc.$post->image)}}" alt=""></a>
 			<div class="post-body">
 				<div class="post-category">
-					<a href="{{route('blog.read_post', $post->slug)}}">{{$post->category->name}}</a>
+					<a href="{{route('blog.category', $post->category->slug)}}">{{$post->category->name}}</a>
 				</div>
 				<h3 class="post-title"><a href="{{route('blog.read_post', $post->slug)}}">{{$post->title}}</a></h3>
 				<ul class="post-meta">

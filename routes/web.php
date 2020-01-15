@@ -12,12 +12,12 @@
 */
 
 Auth::routes();
-Route::get('/', 'BlogController@index');
-// Route::get('/isi_post', function(){
-// 	return view('blog.post');
-// });
-
+Route::get('/', 'BlogController@index')->name('blog.home');
+Route::get('/list-post', 'BlogController@list_post')->name('blog.list_post');
 Route::get('/read-post/{slug}', 'BlogController@read_post')->name('blog.read_post');
+Route::get('/list-category/{category}', 'BlogController@list_category')->name('blog.category');
+
+Route::get('/search', 'BlogController@search')->name('blog.search');
 
 Route::group(['middleware'=>'auth'], function(){
 
